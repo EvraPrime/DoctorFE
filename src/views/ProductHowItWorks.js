@@ -69,7 +69,7 @@ function ProductHowItWorks() {
                   sx={image}
                 />
                 <Typography variant="h5" align="center">
-                  Appointment every Wednesday 9am.
+                  Đăng ký tài khoản.
                 </Typography>
               </Box>
             </Grid>
@@ -82,8 +82,7 @@ function ProductHowItWorks() {
                   sx={image}
                 />
                 <Typography variant="h5" align="center">
-                  First come, first served. Our offers are in limited quantities, so
-                  be quick.
+                  Chọn dịch vụ mong muốn
                 </Typography>
               </Box>
             </Grid>
@@ -96,8 +95,7 @@ function ProductHowItWorks() {
                   sx={image}
                 />
                 <Typography variant="h5" align="center">
-                  {'New offers every week. New experiences, new surprises. '}
-                  {'Your Sundays will no longer be alike.'}
+                  Chọn ngày và ca khám
                 </Typography>
               </Box>
             </Grid>
@@ -108,7 +106,6 @@ function ProductHowItWorks() {
           size="large"
           variant="contained"
           component="a"
-          href="/premium-themes/onepirate/sign-up/"
           sx={{ mt: 8 }}
         >
           Get started

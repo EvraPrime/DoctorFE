@@ -1,8 +1,8 @@
-import { axios, bearerHeader } from './config';
+import { instance } from './config';
 
 export const signin = async ({ username, password }) => {
   try {
-    const response = await axios.post('/sign-in', { username, password });
+    const response = await instance.post('/sign-in', { username, password });
     console.log(response);
     return response.data;
   } catch (err) {
@@ -12,7 +12,7 @@ export const signin = async ({ username, password }) => {
 
 export const signup = async ({ username, email, password }) => {
   try {
-    const response = await axios.post(
+    const response = await instance.post(
       '/sign-up',
       { username, email, password },
       {}
@@ -25,7 +25,7 @@ export const signup = async ({ username, email, password }) => {
 
 export const signout = async () => {
   try {
-    const response = await axios.get('/signout');
+    const response = await instance.get('/sign-out');
 
     return response.data;
   } catch (err) {
@@ -36,7 +36,7 @@ export const signout = async () => {
 export const changePassword = async ({ password, tkn }) => {
   try {
     console.log(tkn);
-    const response = await axios.put('/password-change', { password }, {
+    const response = await instance.put('/password-change', { password }, {
       params: {
         token: tkn,
         logout: true,
@@ -50,12 +50,21 @@ export const changePassword = async ({ password, tkn }) => {
 
 export const verify = async (data) => {
   try {
-    const response = await axios.put('/verify', {}, {
+    const response = await instance.put('/verify', {}, {
       params: {
         token: data
       }
     });
     console.log(response.data.args);
+    return response.data;
+  } catch (err) {
+    throw new Error(err.response.data?.message);
+  }
+};
+
+export const getProfile = async () => {
+  try {
+    const response = await instance.get('/profile');
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);

@@ -20,7 +20,7 @@ export default function ProductHero() {
         alt="increase priority"
       />
       <Typography color="inherit" align="center" variant="h2" marked="center">
-        Check your heath
+        Kiểm tra sức khỏe
       </Typography>
       <Typography
         color="inherit"
@@ -28,17 +28,16 @@ export default function ProductHero() {
         variant="h5"
         sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
       >
-        Sign up right now to have some special offers
+        Đặt lịch ngay để có thể nhận nhiều ưu đãi hấp dẫn
       </Typography>
       <Button
         color="secondary"
         variant="contained"
         size="large"
         component={ RouterLink }
-        to="/sign-up"
         sx={{ minWidth: 200 }}
       >
-        Sign Up
+        Bắt đầu ngay
       </Button>
       <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
         Discover the experience

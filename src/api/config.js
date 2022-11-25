@@ -1,7 +1,7 @@
-import * as axiosDefault from 'axios';
+import axios from 'axios';
 
 const SERVER = 'http://localhost:3500';
-export const axios = axiosDefault.create({
+export const instance = axios.create({
   baseURL: SERVER,
   withCredentials: true,
 });

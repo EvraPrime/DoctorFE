@@ -1,38 +1,49 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import { Field, Form, FormSpy } from 'react-final-form';
 import Typography from '../components/Typography';
-//import AppFooter from './modules/views/AppFooter';
-//import AppAppBar from './modules/views/AppAppBar';
 import AppForm from '../views/AppForm';
 import { email, required } from '../form/validation';
 import RFTextField from '../form/RFTextField';
 import FormButton from '../form/FormButton';
 import FormFeedback from '../form/FormFeedback';
 import withRoot from '../modules/withRoot';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import useHttp from '../modules/use-http';
+import { signup } from '../api/auth'
+import { AuthContext } from '../store/auth-context';
+import swal from 'sweetalert';
 
 function SignUp() {
-  const [sent, setSent] = React.useState(false);
-
   const validate = (values) => {
-    const errors = required(['firstName', 'lastName', 'email', 'password'], values);
-
+    const errors = required(['email'], values);
     if (!errors.email) {
       const emailError = email(values.email);
       if (emailError) {
         errors.email = emailError;
       }
     }
-
     return errors;
   };
 
-  const handleSubmit = () => {
-    setSent(true);
-  };
+  const { sendRequest, status, data, error } = useHttp(signup);
+  const authCtx = useContext(AuthContext);
+  const { user, setUser } = authCtx;
+  const navigate = useNavigate();
+  const onSubmit = (data) => sendRequest(data);
+
+  useEffect(() => {
+    if (status === 'completed') {
+      if (data) {
+        setUser(data);
+        console.log(user);
+        navigate('/');
+      } else if (error) {
+        swal('Đăng nhập thất bại', 'Đã có lỗi xảy ra', 'error');
+      }
+    }
+  }, [data, error, setUser, status]);
 
   return (
     <React.Fragment>
@@ -48,41 +59,27 @@ function SignUp() {
           </Typography>
         </React.Fragment>
         <Form
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
           subscription={{ submitting: true }}
           validate={validate}
         >
           {({ handleSubmit: handleSubmit2, submitting }) => (
             <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Field
-                    autoFocus
-                    component={RFTextField}
-                    disabled={submitting || sent}
-                    autoComplete="given-name"
-                    fullWidth
-                    label="First name"
-                    name="firstName"
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Field
-                    component={RFTextField}
-                    disabled={submitting || sent}
-                    autoComplete="family-name"
-                    fullWidth
-                    label="Last name"
-                    name="lastName"
-                    required
-                  />
-                </Grid>
-              </Grid>
+              <Field
+                autoFocus
+                component={RFTextField}
+                fullWidth
+                disabled={status === 'pending'}
+                label="Username"
+                margin="normal"
+                name="username"
+                required
+                size="large"
+              />
               <Field
                 autoComplete="email"
                 component={RFTextField}
-                disabled={submitting || sent}
+                disabled={status === 'pending'}
                 fullWidth
                 label="Email"
                 margin="normal"
@@ -92,7 +89,7 @@ function SignUp() {
               <Field
                 fullWidth
                 component={RFTextField}
-                disabled={submitting || sent}
+                disabled={status === 'pending'}
                 required
                 name="password"
                 autoComplete="new-password"
@@ -111,11 +108,11 @@ function SignUp() {
               </FormSpy>
               <FormButton
                 sx={{ mt: 3, mb: 2 }}
-                disabled={submitting || sent}
+                disabled={status === 'pending'}
                 color="secondary"
                 fullWidth
               >
-                {submitting || sent ? 'In progress…' : 'Sign Up'}
+                {status === 'pending' ? 'In progress…' : 'Sign Up'}
               </FormButton>
             </Box>
           )}

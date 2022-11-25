@@ -1,35 +1,37 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Field, Form, FormSpy } from 'react-final-form';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '../components/Typography';
 import AppForm from '../views/AppForm';
-import { email, required } from '../form/validation';
 import RFTextField from '../form/RFTextField';
 import FormButton from '../form/FormButton';
 import FormFeedback from '../form/FormFeedback';
 import withRoot from '../modules/withRoot';
-import { Link as RouterLink } from 'react-router-dom';
+import useHttp from '../modules/use-http';
+import { signin } from '../api/auth'
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../store/auth-context';
+import swal from 'sweetalert';
 
 function SignIn() {
-  const [sent, setSent] = React.useState(false);
+  const { sendRequest, status, data, error } = useHttp(signin);
+  const authCtx = useContext(AuthContext);
+  const { user, setUser } = authCtx;
+  const navigate = useNavigate();
+  const onSubmit = (data) => sendRequest(data);
 
-  const validate = (values) => {
-    const errors = required(['email', 'password'], values);
-
-    if (!errors.email) {
-      const emailError = email(values.email);
-      if (emailError) {
-        errors.email = emailError;
+  useEffect(() => {
+    if (status === 'completed') {
+      if (data) {
+        setUser(data);
+        console.log(user);
+        navigate('/');
+      } else if (error) {
+        swal('Đăng nhập thất bại', 'Đã có lỗi xảy ra', 'error');
       }
     }
-
-    return errors;
-  };
-
-  const handleSubmit = () => {
-    setSent(true);
-  };
+  }, [data, error, setUser, status]);
 
   return (
     <React.Fragment>
@@ -51,21 +53,19 @@ function SignIn() {
           </Typography>
         </React.Fragment>
         <Form
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
           subscription={{ submitting: true }}
-          validate={validate}
         >
           {({ handleSubmit: handleSubmit2, submitting }) => (
             <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
               <Field
-                autoComplete="email"
                 autoFocus
                 component={RFTextField}
-                disabled={submitting || sent}
                 fullWidth
-                label="Email"
+                disabled={status === 'pending'}
+                label="Username"
                 margin="normal"
-                name="email"
+                name="username"
                 required
                 size="large"
               />
@@ -73,8 +73,8 @@ function SignIn() {
                 fullWidth
                 size="large"
                 component={RFTextField}
-                disabled={submitting || sent}
                 required
+                disabled={status === 'pending'}
                 name="password"
                 autoComplete="current-password"
                 label="Password"
@@ -92,12 +92,11 @@ function SignIn() {
               </FormSpy>
               <FormButton
                 sx={{ mt: 3, mb: 2 }}
-                disabled={submitting || sent}
                 size="large"
                 color="secondary"
                 fullWidth
               >
-                {submitting || sent ? 'In progress…' : 'Sign In'}
+                {status === 'pending' ? 'In progress...' : 'Sign In'}
               </FormButton>
             </Box>
           )}

@@ -1,10 +1,14 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import AdbIcon from '@mui/icons-material/Adb';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import AppBar from '../components/AppBar';
+import Button from '../components/Button';
 import Toolbar from '../components/Toolbar';
+import useHttp from '../modules/use-http';
+import { signout } from '../api/auth'
 import { Link as RouterLink } from 'react-router-dom';
+import { AuthContext } from '../store/auth-context';
 
 const rightLink = {
   fontSize: 16,
@@ -13,6 +17,19 @@ const rightLink = {
 };
 
 function AppAppBar() {
+  const authCtx = useContext(AuthContext);
+  const { user, setUser } = authCtx;
+  const { data, status, sendRequest } = useHttp(signout);
+
+  useEffect(() => {
+    if (status === 'completed') {
+      if (data) {
+        setUser(data);
+      } else setUser(null);
+
+    }
+  }, [data, setUser, status]);
+
   return (
     <div>
       <AppBar position="fixed">
@@ -55,12 +72,25 @@ function AppAppBar() {
             variant="h6"
             underline="none"
             color="inherit"
-            to="/terms"
+            to="/blogs"
             sx={{ fontSize: 16 }}
           >
-            {'Điều khoản'}
+            {'Tin tức'}
           </Link>
-          <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+          {
+            user !== null ?
+            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                onClick={ sendRequest }
+                variant="h6"
+                underline="none"
+                sx={{ ...rightLink, color: 'secondary.main' }}
+              >
+                {'Sign Out'}
+              </Button>
+            </Box>
+            :
+            <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
             <Link
               component={ RouterLink }
               color="inherit"
@@ -81,6 +111,7 @@ function AppAppBar() {
               {'Sign Up'}
             </Link>
           </Box>
+          }
         </Toolbar>
       </AppBar>
       <Toolbar />
