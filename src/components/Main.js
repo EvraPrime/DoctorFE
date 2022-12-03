@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
-import Typography from '../components/Typography';
+import Typography from './Typography';
 import Divider from '@mui/material/Divider';
-import Markdown from '../components/Markdown';
+import Markdown from './Markdown';
 
 function Main(props) {
   const { posts, title } = props;

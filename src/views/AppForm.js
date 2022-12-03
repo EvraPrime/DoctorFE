@@ -7,6 +7,7 @@ import Button from '../components/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Background from '../images/appCurvyLines.png';
+
 function AppForm(props) {
   const { children } = props;
 

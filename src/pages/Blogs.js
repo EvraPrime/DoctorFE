@@ -4,13 +4,11 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import AppAppBar from '../views/AppAppBar';
-import MainFeaturedPost from './MainFeaturedPost';
+import MainFeaturedPost from '../views/MainFeaturedPost';
 import FeaturedPost from './FeaturedPost.js';
 import AppFooter from '../views/AppFooter';
 import Markdown from '../components/Markdown';
 import post1 from '../markdowns/blog-post.1.md';
-import post2 from '../markdowns/blog-post.2.md';
-import post3 from '../markdowns/blog-post.3.md';
 import withRoot from '../modules/withRoot';
 import useHttp from '../modules/use-http';
 import { getAllBlogs } from '../api/blogs'

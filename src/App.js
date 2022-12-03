@@ -12,6 +12,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import { AuthContext } from './store/auth-context';
 import { getProfile } from './api/auth';
 import Blog from './pages/Blogs';
+import Booking from './pages/Booking';
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -38,6 +39,7 @@ function App() {
         <Route path='Terms' element={<Terms />} />
         <Route path='About' element={<About />} />
         <Route path='Blogs' element={<Blog />} />
+        <Route path='Booking' element={<Booking />} />
       </Routes>
     </div>
   );

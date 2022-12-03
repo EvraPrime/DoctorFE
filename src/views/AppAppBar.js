@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import AdbIcon from '@mui/icons-material/Adb';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
+import { IconButton, Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import AppBar from '../components/AppBar';
-import Button from '../components/Button';
+//import Button from '../components/Button';
 import Toolbar from '../components/Toolbar';
+import Typography from '../components/Typography';
 import useHttp from '../modules/use-http';
 import { signout } from '../api/auth'
 import { Link as RouterLink } from 'react-router-dom';
@@ -17,6 +18,23 @@ const rightLink = {
 };
 
 function AppAppBar() {
+//  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  // const handleOpenNavMenu = (event) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   const authCtx = useContext(AuthContext);
   const { user, setUser } = authCtx;
   const { data, status, sendRequest } = useHttp(signout);
@@ -34,16 +52,20 @@ function AppAppBar() {
     <div>
       <AppBar position="fixed">
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Box 
+            component="img" 
+            sx={{ height:30, width: 30 }} 
+            alt="logo"
+            src={require('../images/medLogo.png')}/>
           <Link
             component={ RouterLink }
-            variant="h6"
+            variant="h5"
             underline="none"
             color="inherit"
             to="/"
-            sx={{ fontSize: 24, mr: 2 }}
+            sx={{ fontSize: 25, mr: 2 }}
           >
-            {'medbook'}
+            {'edbook'}
           </Link>
           <Link
             component={ RouterLink }
@@ -77,17 +99,48 @@ function AppAppBar() {
           >
             {'Tin tức'}
           </Link>
+          <Box sx={{ width: 15 }}/>
+          <Link
+            component={ RouterLink }
+            variant="h6"
+            underline="none"
+            color="inherit"
+            to="/booking"
+            sx={{ fontSize: 16 }}
+          >
+            {'Đặt lịch'}
+          </Link>
           {
             user !== null ?
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                onClick={ sendRequest }
-                variant="h6"
-                underline="none"
-                sx={{ ...rightLink, color: 'secondary.main' }}
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp"/>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                {'Sign Out'}
-              </Button>
+                <MenuItem onClick={sendRequest}>
+                  <Typography textAlign="center">Đăng xuất</Typography>
+                </MenuItem>
+                <MenuItem component={ RouterLink } to="/booking">
+                  <Typography textAlign="center">Hồ sơ bệnh nhân</Typography>
+                </MenuItem>
+              </Menu>
             </Box>
             :
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
