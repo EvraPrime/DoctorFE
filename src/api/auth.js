@@ -3,7 +3,7 @@ import { instance } from './config';
 export const signin = async ({ username, password }) => {
   try {
     const response = await instance.post('/sign-in', { username, password });
-    console.log(response);
+    localStorage.setItem('accessToken', response.data.token);
     return response.data;
   } catch (err) {
     throw new Error(err);
@@ -26,7 +26,7 @@ export const signup = async ({ username, email, password }) => {
 export const signout = async () => {
   try {
     const response = await instance.get('/sign-out');
-
+    localStorage.setItem('accessToken', '');
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);
@@ -64,7 +64,8 @@ export const verify = async (data) => {
 
 export const getProfile = async () => {
   try {
-    const response = await instance.get('/profile');
+    //instance.defaults.headers.common['Authorization'] = bearerHeader;
+    const response = await instance.get('/profile', {withCredentials: true});
     return response.data;
   } catch (err) {
     throw new Error(err.response.data?.message);

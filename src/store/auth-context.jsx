@@ -8,7 +8,6 @@ export const AuthContext = React.createContext({
 
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = React.useState(undefined);
-  console.log(user);
   const contextValue = {
     user,
     setUser,

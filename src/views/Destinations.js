@@ -39,7 +39,7 @@ function Destinations(props) {
           <Grid item xs={6}>
             <ListItemButton 
               onClick={() => {
-                handleClick('hospital', row.name);
+                handleClick('hospital', row.hospitalID);
                 nextStep();
               }}
               sx={{ 

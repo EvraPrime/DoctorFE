@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { IconButton, Avatar, Menu, MenuItem, Tooltip } from '@mui/material';
 import AppBar from '../components/AppBar';
-//import Button from '../components/Button';
+import { useNavigate } from "react-router-dom";
 import Toolbar from '../components/Toolbar';
 import Typography from '../components/Typography';
 import useHttp from '../modules/use-http';
@@ -18,6 +18,7 @@ const rightLink = {
 };
 
 function AppAppBar() {
+  let navigate = useNavigate();
 //  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -43,8 +44,10 @@ function AppAppBar() {
     if (status === 'completed') {
       if (data) {
         setUser(data);
-      } else setUser(null);
-
+      } else {
+        setUser(null);
+      }
+      navigate("/");
     }
   }, [data, setUser, status]);
 
@@ -105,13 +108,12 @@ function AppAppBar() {
             variant="h6"
             underline="none"
             color="inherit"
-            to="/booking"
+            to={ user !== null ? "/booking" : "/sign-in"}
             sx={{ fontSize: 16 }}
           >
-            {'Đặt lịch'}
+            {'Dịch vụ'}
           </Link>
-          {
-            user !== null ?
+          { user !== null ?
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

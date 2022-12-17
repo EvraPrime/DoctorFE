@@ -5,4 +5,15 @@ export const instance = axios.create({
   baseURL: SERVER,
   withCredentials: true,
 });
-export const bearerHeader = `Bearer ${localStorage.getItem('accessToken')}`;
+
+instance.interceptors.request.use(async (config) => {
+  let accessToken = localStorage.getItem('accessToken');
+
+  if (accessToken) {
+    config.headers.Authorization = 'Bearer ' + accessToken;
+  } else {
+    config.headers.Authorization = '';
+  }
+  
+  return config
+});

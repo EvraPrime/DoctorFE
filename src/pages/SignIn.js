@@ -25,7 +25,6 @@ function SignIn() {
     if (status === 'completed') {
       if (data) {
         setUser(data);
-        console.log(user);
         navigate('/');
       } else if (error) {
         swal('Đăng nhập thất bại', 'Đã có lỗi xảy ra', 'error');

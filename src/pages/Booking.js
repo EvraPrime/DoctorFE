@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -10,11 +10,11 @@ import AppAppBar from '../views/AppAppBar';
 import AppFooter from '../views/AppFooter';
 import withRoot from '../modules/withRoot';
 import Destinations from '../views/Destinations';
-import PersonalDetailsForm from '../views/PersonalDetailsForm';
+import Patient from '../views/Patient';
 import Confirm from '../views/Confirm';
 import Success from '../views/Success';
 
-const steps = ['Chọn bệnh viện', 'Chọn dịch vụ', 'Chọn bác sĩ', 'Chọn hồ sơ khám bệnh'];
+const steps = ['Chọn bệnh viện', 'Chọn hồ sơ bệnh nhân', 'Chọn chuyên khoa', 'Chọn bác sĩ', 'Xác nhận'];
 
 function Booking() {
   const [activeStep, setActiveStep] = useState(0);
@@ -50,7 +50,7 @@ function Booking() {
         );
       case 1:
         return (
-          <PersonalDetailsForm
+          <Patient
             nextStep={handleNext}
             prevStep={handleBack}
             handleChange={handleChange}
