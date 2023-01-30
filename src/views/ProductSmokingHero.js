@@ -21,11 +21,11 @@ function ProductSmokingHero() {
         }}
       >
         <Typography variant="h4" component="span">
-          Got any questions? Need help?
+          Cần sự trợ giúp?
         </Typography>
       </Button>
       <Typography variant="subtitle1" sx={{ my: 3 }}>
-        We are here to help. Get in touch!
+        Hãy liên hệ ngay!
       </Typography>
       <Box
         component={ Logo1 }

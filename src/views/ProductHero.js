@@ -3,9 +3,13 @@ import Button from '../components/Button';
 import Typography from '../components/Typography';
 import ProductHeroLayout from './ProductHeroLayout';
 import Background from '../images/doctorHero.png';
+import { Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import { AuthContext } from '../store/auth-context';
 
 export default function ProductHero() {
+  const { user } = React.useContext(AuthContext);
+
   return (
     <ProductHeroLayout
       sxBackground={{
@@ -14,34 +18,30 @@ export default function ProductHero() {
         backgroundPosition: 'center',
       }}
     >
-      <img
-        style={{ display: 'none' }}
-        src={ Background }
-        alt="increase priority"
-      />
-      <Typography color="inherit" align="center" variant="h2" marked="center">
-        Kiểm tra sức khỏe
-      </Typography>
-      <Typography
-        color="inherit"
-        align="center"
-        variant="h5"
-        sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
-      >
-        Đặt lịch ngay để có thể nhận nhiều ưu đãi hấp dẫn
-      </Typography>
-      <Button
-        color="secondary"
-        variant="contained"
-        size="large"
-        component={ RouterLink }
-        sx={{ minWidth: 200 }}
-      >
-        Bắt đầu ngay
-      </Button>
-      <Typography variant="body2" color="inherit" sx={{ mt: 2 }}>
-        Discover the experience
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography color="inherit" align="center" variant="h3" marked="center">
+          Đặt lịch khám bệnh
+        </Typography>
+        <Typography
+          color="inherit"
+          align="left"
+          variant="h5"
+          sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
+        >
+          ✓ Tiện lợi<br/>✓ Chính xác<br/>✓ Chuyên nghiệp
+        </Typography>
+        <Button
+          color="secondary"
+          variant="contained"
+          size="large"
+          align="center"
+          component={ RouterLink }
+          sx={{ minWidth: 200, width: "50%" }}
+          to={user ? "/booking" : "/sign-in"}
+        >
+          Bắt đầu ngay
+        </Button>
+      </Box>
     </ProductHeroLayout>
   );
 }

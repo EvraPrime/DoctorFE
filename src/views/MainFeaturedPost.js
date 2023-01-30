@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Paper from '../components/Paper';
 import Typography from '../components/Typography';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
+import { NavLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
 function MainFeaturedPost(props) {
@@ -49,9 +49,7 @@ function MainFeaturedPost(props) {
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link variant="subtitle1" href="#">
-              {post.linkText}
-            </Link>
+            <NavLink to={`/detail/${post.title}`}>Đọc thêm...</NavLink>
           </Box>
         </Grid>
       </Grid>

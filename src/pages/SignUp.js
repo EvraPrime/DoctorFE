@@ -39,7 +39,7 @@ function SignUp() {
         setUser(data);
         navigate('/');
       } else if (error) {
-        swal('Đăng nhập thất bại', 'Đã có lỗi xảy ra', 'error');
+        swal('Đăng nhập thất bại', 'Tên tài khoản hoặc email không hợp lệ', 'error');
       }
     }
   }, [data, error, setUser, status]);
@@ -49,11 +49,11 @@ function SignUp() {
       <AppForm>
         <React.Fragment>
           <Typography variant="h3" gutterBottom marked="center" align="center">
-            Sign Up
+            Đăng ký
           </Typography>
           <Typography variant="body2" align="center">
             <Link component={ RouterLink } to="/sign-in" underline="always">
-              Already have an account?
+              Đã có tài khoản?
             </Link>
           </Typography>
         </React.Fragment>
@@ -69,7 +69,7 @@ function SignUp() {
                 component={RFTextField}
                 fullWidth
                 disabled={status === 'pending'}
-                label="Username"
+                label="Tên tài khoản"
                 margin="normal"
                 name="username"
                 required
@@ -92,7 +92,7 @@ function SignUp() {
                 required
                 name="password"
                 autoComplete="new-password"
-                label="Password"
+                label="Mật khẩu"
                 type="password"
                 margin="normal"
               />
@@ -111,7 +111,7 @@ function SignUp() {
                 color="secondary"
                 fullWidth
               >
-                {status === 'pending' ? 'In progress…' : 'Sign Up'}
+                {status === 'pending' ? 'Đang chờ…' : 'Đăng ký'}
               </FormButton>
             </Box>
           )}

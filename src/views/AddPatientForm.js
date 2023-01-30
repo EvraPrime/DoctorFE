@@ -21,7 +21,7 @@ import swal from 'sweetalert';
 const mapJob = [ "Bác sĩ", "Điều dưỡng", "Y sĩ", "Kỹ sư điện", "Thợ mộc", "Thợ làm bánh", "Làm thuê", "Họa sĩ", "Giáo viên", "Giảng viên", "Sinh viên", "Học sinh" ]
 const ethnic = [ "Kinh", "Hoa", "Tày", "Thái", "Mường" ]
 
-function PatientForm(props) {
+function AddPatientForm(props) {
   const username = props.username;
   const [ value, setValue ] = React.useState([]);
   const [ date, setDate ] = React.useState(dayjs().format("MM-DD-YYYY"));
@@ -47,7 +47,13 @@ function PatientForm(props) {
   const { error, status, sendRequest } = useHttp(createNewPatients);
 
   const handleSubmit = () => {
-    sendRequest({ ...value, username: username })
+    if (value === null || date === null || num === null || cmnd === null || eth === null
+      || eth === "" || date === "" || num === "" || cmnd === "") {
+      swal("Đã có lỗi xảy ra", "Vui lòng điền đầy đủ thông tin", "error")
+    }
+    else {
+      sendRequest({ ...value, username: username })
+    }
   };
 
   React.useEffect(() => {
@@ -88,7 +94,7 @@ function PatientForm(props) {
                 disableFuture="true"
                 onChange={(newValue) => {
                   setDate(newValue);
-                  setValue({ ...value, "dob": dayjs(newValue).format("DD-MM-YYYY")});
+                  setValue({ ...value, "dob": dayjs(newValue).format("MM-DD-YYYY")});
                 }}
                 renderInput={(params) => <TextField margin='dense' fullWidth {...params} />}
               />
@@ -253,4 +259,4 @@ function PatientForm(props) {
   );
 }
 
-export default PatientForm;
+export default AddPatientForm;

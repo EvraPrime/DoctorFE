@@ -12,7 +12,7 @@ function Copyright() {
     <React.Fragment>
       {'© '}
       <Link color="inherit" href="/">
-        Your Website
+        Medbook
       </Link>{' '}
     </React.Fragment>
   );
@@ -33,12 +33,8 @@ const iconStyle = {
 
 const LANGUAGES = [
   {
-    code: 'en-US',
-    name: 'English',
-  },
-  {
-    code: 'fr-FR',
-    name: 'Français',
+    code: 'vi-VN',
+    name: 'Việt',
   },
 ];
 
@@ -78,21 +74,21 @@ export default function AppFooter() {
             </Grid>
           </Grid>
           <Grid item xs={6} sm={4} md={2}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Legal
+            <Typography variant="h6" gutterBottom>
+              Qui định
             </Typography>
             <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
               <Box component="li" sx={{ py: 0.5 }}>
-                <Link component={ RouterLink } to="/terms">Terms</Link>
+                <Link component={ RouterLink } to="/terms">Điều khoản dịch vụ</Link>
               </Box>
               <Box component="li" sx={{ py: 0.5 }}>
-                <Link component={ RouterLink } to="/privacy">Privacy</Link>
+                <Link component={ RouterLink } to="/privacy">Chính sách bảo mật</Link>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={6} sm={8} md={4}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Language
+            <Typography variant="h6" gutterBottom>
+              Ngôn ngữ
             </Typography>
             <TextField
               select

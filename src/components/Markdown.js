@@ -11,15 +11,24 @@ const options = {
       props: {
         gutterBottom: true,
         variant: 'h4',
+        align: 'left',
       },
     },
     h2: {
       component: Typography,
-      props: { gutterBottom: true, variant: 'h6' },
+      props: { 
+        gutterBottom: true, 
+        variant: 'h6',
+        align: 'left',    
+      },
     },
     h3: {
       component: Typography,
-      props: { gutterBottom: true, variant: 'subtitle1' },
+      props: { 
+        gutterBottom: true, 
+        variant: 'subtitle1',
+        align: 'left',     
+      },
     },
     h4: {
       component: Typography,
@@ -27,11 +36,15 @@ const options = {
         gutterBottom: true,
         variant: 'caption',
         paragraph: true,
+        align: 'left',    
       },
     },
     p: {
       component: Typography,
-      props: { paragraph: true },
+      props: { 
+        paragraph: true,
+        align: 'left',    
+      },
     },
     a: { component: Link },
     li: {

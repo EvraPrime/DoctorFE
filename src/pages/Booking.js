@@ -13,8 +13,11 @@ import Destinations from '../views/Destinations';
 import Patient from '../views/Patient';
 import Confirm from '../views/Confirm';
 import Success from '../views/Success';
+import Doctors from '../views/Doctors';
+import Dates from '../views/Dates';
 
-const steps = ['Chọn bệnh viện', 'Chọn hồ sơ bệnh nhân', 'Chọn chuyên khoa', 'Chọn bác sĩ', 'Xác nhận'];
+const steps = ['Chọn bệnh viện', 'Chọn hồ sơ bệnh nhân', 'Chọn bác sĩ', 'Chọn ngày khám', 'Xác nhận'];
+const service = {};
 
 function Booking() {
   const [activeStep, setActiveStep] = useState(0);
@@ -27,15 +30,8 @@ function Booking() {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const [service, setService] = useState([]);
-
-  const handleChange = input => e => {
-    setService({ ...service, [input]: e.target.value });
-    console.log(service);
-  }
-
   const handleClick = (input, value) => {
-    setService({ ...service, [input]: value});
+    service[input] = value;
     console.log(service);
   }
 
@@ -53,23 +49,42 @@ function Booking() {
           <Patient
             nextStep={handleNext}
             prevStep={handleBack}
-            handleChange={handleChange}
-            values={service}
+            handleClick={handleClick}
           />
         );
       case 2:
         return (
-          <Confirm
+          <Doctors
             nextStep={handleNext}
             prevStep={handleBack}
-            handleChange={handleChange}
-            values={service}
+            handleClick={handleClick}
+            service={service}
           />
         );
       case 3:
-        return <Success />;
+        return (
+          <Dates 
+            nextStep={handleNext}
+            prevStep={handleBack}
+            handleClick={handleClick}
+            service={service}
+          />
+        );
+      case 4:
+        return (
+          <Confirm 
+            nextStep={handleNext}
+            prevStep={handleBack}
+            handleClick={handleClick}
+            service={service}
+          />
+        );
+      case 5:
+        return (
+          <Success service={service}/>
+        )
       default:
-        return 'You are a Guest';
+        return 'Something is wrong';
     }
   }
 

@@ -10,6 +10,8 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import Blog from './pages/Blogs';
 import Booking from './pages/Booking';
+import Account from './pages/Account';
+import DetailsBlog from './pages/DetailsBlog';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path='Terms' element={<Terms />} />
         <Route path='About' element={<About />} />
         <Route path='Blogs' element={<Blog />} />
+        <Route path='detail/:title' element={<DetailsBlog />} /> 
+        <Route path='Account' element={<Account />} />
         <Route path='Booking' element={<Booking />} />
       </Routes>
     </div>

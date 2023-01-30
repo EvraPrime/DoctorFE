@@ -6,41 +6,40 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import { NavLink } from 'react-router-dom';
 
-function FeaturedPost(props) {
+function NormalPost(props) {
   const { post } = props;
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid width="100%" item xs={12} md={6}>
       <CardActionArea component="a" href="#">
         <Card sx={{ display: 'flex' }}>
-          <CardContent sx={{ flex: 1 }}>
-            <Typography component="h2" variant="h5">
-              {post.title}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              {post.date}
-            </Typography>
-            <Typography variant="subtitle1" paragraph>
-              {post.description}
-            </Typography>
-            <Typography variant="subtitle1" color="primary">
-              Continue reading...
-            </Typography>
-          </CardContent>
           <CardMedia
             component="img"
             sx={{ width: 160, display: { xs: 'none', sm: 'block' }, objectFit: "contain" }}
             image={post.image}
             alt={post.imageLabel}
           />
+          <CardContent sx={{ flex: 1 }}>
+            <Typography component="h2" align="left" variant="h5">
+              <b>{post.title}</b>
+            </Typography>
+            <Typography variant="subtitle1" align="left" color="text.secondary">
+              {post.date}
+            </Typography>
+            <Typography variant="subtitle1" align="left" paragraph>
+              {post.description}
+            </Typography>
+            <NavLink to={`/detail/${post.title}`}>Đọc thêm...</NavLink>
+          </CardContent>
         </Card>
       </CardActionArea>
     </Grid>
   );
 }
 
-FeaturedPost.propTypes = {
+NormalPost.propTypes = {
   post: PropTypes.shape({
     date: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -50,4 +49,4 @@ FeaturedPost.propTypes = {
   }).isRequired,
 };
 
-export default FeaturedPost;
+export default NormalPost;

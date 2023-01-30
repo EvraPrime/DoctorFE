@@ -4,9 +4,7 @@ import Grid from '@mui/material/Grid';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
 import { Container } from '@mui/material';
 import useHttp from '../modules/use-http';
 import { getAllHospitals } from '../api/booking'
@@ -39,7 +37,9 @@ function Destinations(props) {
           <Grid item xs={6}>
             <ListItemButton 
               onClick={() => {
-                handleClick('hospital', row.hospitalID);
+                handleClick('hospitalID', row.hospitalID);
+                handleClick('hospitalName', row.name);
+                handleClick('hospitalAddress', row.address);
                 nextStep();
               }}
               sx={{ 
@@ -51,11 +51,7 @@ function Destinations(props) {
                   borderColor: '#3c52b2',
                 }}}>
               <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <ImageIcon />
-                  </Avatar>
-                </ListItemAvatar>
+                <Avatar alt="NOT FOUND" src={row.image} sx={{ width: 56, height: 56, mr: 2 }}/>
                 <ListItemText primary={row.name} secondary={row.address} />
               </ListItem>
             </ListItemButton>

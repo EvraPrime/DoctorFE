@@ -27,7 +27,8 @@ function SignIn() {
         setUser(data);
         navigate('/');
       } else if (error) {
-        swal('Đăng nhập thất bại', 'Đã có lỗi xảy ra', 'error');
+        console.log(error);
+        swal('Đăng nhập thất bại', 'Tên tài khoản hoặc mật khẩu không hợp lệ', 'error');
       }
     }
   }, [data, error, setUser, status]);
@@ -37,17 +38,17 @@ function SignIn() {
       <AppForm>
         <React.Fragment>
           <Typography variant="h3" gutterBottom marked="center" align="center">
-            Sign In
+            Đăng nhập
           </Typography>
           <Typography variant="body2" align="center">
-            {'Not a member yet? '}
+            {'Chưa có tài khoản? '}
             <Link
               component={ RouterLink }
               to="/sign-up"
               align="center"
               underline="always"
             >
-              Sign Up here
+              Đăng ký ngay!
             </Link>
           </Typography>
         </React.Fragment>
@@ -62,7 +63,7 @@ function SignIn() {
                 component={RFTextField}
                 fullWidth
                 disabled={status === 'pending'}
-                label="Username"
+                label="Tên tài khoản"
                 margin="normal"
                 name="username"
                 required
@@ -76,7 +77,7 @@ function SignIn() {
                 disabled={status === 'pending'}
                 name="password"
                 autoComplete="current-password"
-                label="Password"
+                label="Mật khẩu"
                 type="password"
                 margin="normal"
               />
@@ -95,16 +96,11 @@ function SignIn() {
                 color="secondary"
                 fullWidth
               >
-                {status === 'pending' ? 'In progress...' : 'Sign In'}
+                {status === 'pending' ? 'Đang chờ...' : 'Đăng nhập'}
               </FormButton>
             </Box>
           )}
         </Form>
-        <Typography align="center">
-          <Link component={ RouterLink } underline="always" to="/forgot-password">
-            Forgot password?
-          </Link>
-        </Typography>
       </AppForm>
     </React.Fragment>
   );

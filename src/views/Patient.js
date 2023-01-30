@@ -13,24 +13,29 @@ import Grid from '@mui/material/Unstable_Grid2';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import useHttp from '../modules/use-http';
-import { getAllPatients } from '../api/booking';
+import { getAllPatients, deletePatient } from '../api/booking';
 import LoadingBox from '../components/LoadingBox';
-import PatientForm from './PatientForm';
+import AddPatientForm from './AddPatientForm';
 import { AuthContext } from '../store/auth-context';
 import dayjs from 'dayjs';
+import swal from 'sweetalert';
+import EditPatientForm from './EditPatientForm';
 
 function Patient(props) {
   const { user } = React.useContext(AuthContext);
-  const [open, setOpen] = React.useState(false);
+  const [ openAdd, setOpenAdd ] = React.useState(false);
+  const [ openEdit, setOpenEdit ] = React.useState(false);
+  const [ patient, setPatient ] = React.useState([]);
 
   const { prevStep, nextStep, handleClick } = props;
 
   const [ content, setContent ] = React.useState([]);
   const { data, error, status, sendRequest } = useHttp(getAllPatients);
-  
+  const { status: statusDelete, sendRequest: sendDeleteRequest } = useHttp(deletePatient);
+
   React.useEffect(() => {
     sendRequest(user);
-  }, [sendRequest, open]);
+  }, [sendRequest, openAdd, openEdit]);
 
   React.useEffect(() => {
     if (status === 'completed' && data) {
@@ -38,6 +43,29 @@ function Patient(props) {
       console.log(data);
     }
   }, [data, status, setContent]);
+
+  const handleDelete = (id) => {
+    swal({
+      title: "Bạn có muốn xóa hồ sơ này?",
+      text: "Một khi xóa, bạn sẽ không thể khôi phục lại hồ sơ này!",
+      icon: "warning",
+      buttons: ["Hủy", "Xóa"],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        let p = { id: id, username: user.username};
+        sendDeleteRequest(p);
+      }
+    });
+  } 
+
+  React.useEffect(() => {
+    if (statusDelete === 'completed') {
+      sendRequest(user);
+      swal("Xóa thành công", { icon: "success", });
+    }
+  }, [statusDelete]);
 
   if (status === 'pending') return <LoadingBox />;
 
@@ -47,7 +75,7 @@ function Patient(props) {
     <Container sx={{ mt: 5, mb: 5}}>
       <Box sx={{ flex: 1, display:'flex', justifyContent:'center' }}>
         <List sx={{ width: '100%', maxWidth: 500 }}>
-          { content !== null ?
+          { content.length !== 0 ?
           content.map(row => (
             <ListItem               
               sx={{ 
@@ -122,19 +150,31 @@ function Patient(props) {
                 </Grid>
 
                 <Grid item xs={3}>
-                  <Button variant="outlined" color="error">Xóa</Button>
+                  <Button variant="outlined" color="error" onClick={() => handleDelete(row.recordID)}>Xóa</Button>
                 </Grid>
                 <Grid item xs={3}>
-                  <Button variant="outlined" color="info">Sửa</Button>
+                  <Button variant="outlined" color="info" onClick={() => { 
+                    setPatient(row); 
+                    setOpenEdit(true); 
+                  }}>Sửa</Button>
                 </Grid>
                 <Grid item xs={5} xsOffset='auto'>
-                  <Button variant="contained" color="info">Tiếp tục</Button>
+                  <Button variant="contained" color="info" onClick={() => {
+                    handleClick('patientID', row.recordID);
+                    handleClick('patientName', row.name);
+                    handleClick('dob', row.dob);
+                    handleClick('phone', row.phone);
+                    handleClick('email', row.email);
+                    handleClick('patientAddress', row.address);
+                    handleClick('gender', row.gender);
+                    nextStep();
+                  }}>Tiếp tục</Button>
                 </Grid>
               </Grid>
             </ListItem>
           ))
           :
-          <ListItemText>Chưa có hồ sơ bệnh nhân</ListItemText>
+          <Typography>Chưa có hồ sơ bệnh nhân</Typography>
           }
         </List>
       </Box>
@@ -153,13 +193,14 @@ function Patient(props) {
             >Quay lại</Button>
           </Grid>
           <Grid item xs={5} xsOffset="auto">
-            <Button variant="contained" color="info" onClick={()=> { setOpen(true) }}>
+            <Button variant="contained" color="info" onClick={()=> { setOpenAdd(true) }}>
               Thêm hồ sơ
             </Button>
           </Grid>
         </Grid>
       </Box>
-      <PatientForm username={user.username} open={open} setOpen={setOpen}/>
+      <AddPatientForm username={user.username} open={openAdd} setOpen={setOpenAdd}/>
+      <EditPatientForm open={openEdit} setOpen={setOpenEdit} patient={patient} setPatient={setPatient}/>
     </Container>
   );
 }

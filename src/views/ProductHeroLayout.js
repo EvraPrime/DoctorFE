@@ -39,15 +39,10 @@ function ProductHeroLayout(props) {
           mb: 14,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'flex-start',
         }}
       >
-        <img
-          src={require('../images/productHeroWonder.png')}
-          alt="wonder"
-          width="147"
-          height="80"
-        />
+
         {children}
         <Box
           sx={{
@@ -62,14 +57,6 @@ function ProductHeroLayout(props) {
           }}
         />
         <Background sx={sxBackground} />
-        <Box
-          component="img"
-          src={require('../images/productHeroArrowDown.png')}
-          height="16"
-          width="12"
-          alt="arrow down"
-          sx={{ position: 'absolute', bottom: 32 }}
-        />
       </Container>
     </ProductHeroLayoutRoot>
   );

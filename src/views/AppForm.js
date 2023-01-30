@@ -16,7 +16,7 @@ function AppForm(props) {
       <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 10 }}>
         <Button component={ RouterLink } to='/'>
           <ArrowBackIcon sx={{ mr: 1 }} />
-          Back to Main page
+          Quay lại trang chủ
         </Button>
       </Box>
       <Box

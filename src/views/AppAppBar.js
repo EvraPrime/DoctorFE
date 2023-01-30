@@ -8,7 +8,7 @@ import Toolbar from '../components/Toolbar';
 import Typography from '../components/Typography';
 import useHttp from '../modules/use-http';
 import { signout } from '../api/auth'
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { AuthContext } from '../store/auth-context';
 
 const rightLink = {
@@ -16,6 +16,26 @@ const rightLink = {
   color: 'common.white',
   ml: 3,
 };
+
+const normal = {
+  color: "white",
+  textDecoration: "none",
+  fontSize: "18px",
+  padding: "8px 15px",
+  float: "left",
+  display: "block",
+  borderBottom: "3px solid transparent",
+}
+
+const active = {
+  color: "red",
+  textDecoration: "none",
+  fontSize: "18px",
+  padding: "8px 15px",
+  float: "left",
+  display: "block",
+  borderBottom: "3px solid red",
+}
 
 function AppAppBar() {
   let navigate = useNavigate();
@@ -70,54 +90,39 @@ function AppAppBar() {
           >
             {'edbook'}
           </Link>
-          <Link
-            component={ RouterLink }
-            variant="h6"
-            underline="none"
-            color="inherit"
+          <NavLink
             to="/"
-            sx={{ fontSize: 16 }}
+            style={({ isActive }) => isActive ? active : normal}
           >
-            {'Trang chủ'}
-          </Link>
+            Trang chủ
+          </NavLink>
           <Box sx={{ width: 15 }}/>
-          <Link
-            component={ RouterLink }
-            variant="h6"
-            underline="none"
-            color="inherit"
+          <NavLink
             to="/about"
-            sx={{ fontSize: 16 }}
+            style={({ isActive }) => isActive ? active : normal}
           >
-            {'Giới thiệu'}
-          </Link>
+            Giới thiệu
+          </NavLink>
           <Box sx={{ width: 15 }}/>
-          <Link
-            component={ RouterLink }
-            variant="h6"
-            underline="none"
-            color="inherit"
+          <NavLink
             to="/blogs"
-            sx={{ fontSize: 16 }}
+            style={({ isActive }) => isActive ? active : normal}
           >
-            {'Tin tức'}
-          </Link>
+            Tin tức
+          </NavLink>
           <Box sx={{ width: 15 }}/>
-          <Link
-            component={ RouterLink }
-            variant="h6"
-            underline="none"
-            color="inherit"
-            to={ user !== null ? "/booking" : "/sign-in"}
-            sx={{ fontSize: 16 }}
+          <NavLink
+            to={user ? "/booking" : "/sign-in"}
+            style={({ isActive }) => isActive ? active : normal}
           >
-            {'Dịch vụ'}
-          </Link>
-          { user !== null ?
+            Dịch vụ
+          </NavLink>
+          { (user !== undefined && user !== null) ?
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+              <Typography sx={{ mr: 3, mt: 1, color: "red" }}>{user.username}</Typography>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp"/>
+                  <Avatar sx={{ bgcolor: "red" }} alt="Remy Sharp"/>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -136,11 +141,11 @@ function AppAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={sendRequest}>
+                <MenuItem onClick={ sendRequest }>
                   <Typography textAlign="center">Đăng xuất</Typography>
                 </MenuItem>
-                <MenuItem component={ RouterLink } to="/booking">
-                  <Typography textAlign="center">Hồ sơ bệnh nhân</Typography>
+                <MenuItem component={ RouterLink } to="/account">
+                  <Typography textAlign="center">Thông tin tài khoản</Typography>
                 </MenuItem>
               </Menu>
             </Box>
@@ -154,7 +159,7 @@ function AppAppBar() {
               to="/sign-in"
               sx={rightLink}
             >
-              {'Sign In'}
+              {'Đăng nhập'}
             </Link>
             <Link
               component={ RouterLink }
@@ -163,7 +168,7 @@ function AppAppBar() {
               to="/sign-up"
               sx={{ ...rightLink, color: 'secondary.main' }}
             >
-              {'Sign Up'}
+              {'Đăng ký'}
             </Link>
           </Box>
           }

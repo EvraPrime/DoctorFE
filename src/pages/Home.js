@@ -16,7 +16,7 @@ function Index() {
       <ProductHero />
       <ProductValues />
       {/* <ProductCategories /> */}
-      <ProductHowItWorks />
+      {/* <ProductHowItWorks /> */}
       {/* <ProductCTA /> */}
       <ProductSmokingHero />
       <AppFooter />
